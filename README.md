@@ -18,3 +18,5 @@ You can copy & rename the existing .env.example
 5/ connect your wallet and click the transfer gold button
 
 Be patient. There should be 3 transactions to sign.
+
+Fork of https://github.com/solana-labs/dapp-scaffold and https://github.com/stranzhay/gold-transferoooor
