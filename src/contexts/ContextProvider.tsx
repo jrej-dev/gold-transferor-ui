@@ -1,7 +1,9 @@
 import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import {
+    LedgerWalletAdapter,
     PhantomWalletAdapter,
+    SlopeWalletAdapter,
     SolflareWalletAdapter,
     SolletExtensionWalletAdapter,
     SolletWalletAdapter,
@@ -17,18 +19,16 @@ import { NetworkConfigurationProvider, useNetworkConfiguration } from './Network
 import dynamic from "next/dynamic";
 
 const ReactUIWalletModalProviderDynamic = dynamic(
-  async () =>
-    (await import("@solana/wallet-adapter-react-ui")).WalletModalProvider,
-  { ssr: false }
+    async () =>
+        (await import("@solana/wallet-adapter-react-ui")).WalletModalProvider,
+    { ssr: false }
 );
 
 const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const { autoConnect } = useAutoConnect();
     const { networkConfiguration } = useNetworkConfiguration();
     const network = networkConfiguration as WalletAdapterNetwork;
-    const endpoint = useMemo(() => clusterApiUrl(network), [network]);
-
-    console.log(network);
+    const endpoint = process.env.NEXT_PUBLIC_RPC_URL || useMemo(() => clusterApiUrl(network), [network]);
 
     const wallets = useMemo(
         () => [
@@ -37,8 +37,8 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
             new SolletWalletAdapter({ network }),
             new SolletExtensionWalletAdapter({ network }),
             new TorusWalletAdapter(),
-            // new LedgerWalletAdapter(),
-            // new SlopeWalletAdapter(),
+            new LedgerWalletAdapter(),
+            new SlopeWalletAdapter(),
         ],
         [network]
     );
@@ -58,7 +58,7 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
                 <ReactUIWalletModalProviderDynamic>
                     {children}
                 </ReactUIWalletModalProviderDynamic>
-			</WalletProvider>
+            </WalletProvider>
         </ConnectionProvider>
     );
 };
