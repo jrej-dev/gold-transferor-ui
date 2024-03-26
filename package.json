@@ -22,7 +22,7 @@
     "@solana/wallet-adapter-react-ui": "^0.9.27",
     "@solana/wallet-adapter-wallets": "^0.19.11",
     "@solana/web3.js": "^1.91.0",
-    "@tailwindcss/typography": "^0.5.9",
+    "@tailwindcss/typography": "^0.5.11",
     "bn.js": "^5.2.1",
     "daisyui": "^1.24.3",
     "date-fns": "^2.29.3",
